@@ -7,23 +7,51 @@ from torch.utils.data import Dataset
 import torch
 from PIL import Image
 
+from torchvision.transforms.functional import pad
+import numpy as np
+import numbers
+
+def get_padding(image):
+    w, h = image.size
+    max_wh = np.max([w, h])
+    h_padding = (max_wh - w) / 2
+    v_padding = (max_wh - h) / 2
+    l_pad = h_padding if h_padding % 1 == 0 else h_padding+0.5
+    t_pad = v_padding if v_padding % 1 == 0 else v_padding+0.5
+    r_pad = h_padding if h_padding % 1 == 0 else h_padding-0.5
+    b_pad = v_padding if v_padding % 1 == 0 else v_padding-0.5
+    padding = (int(l_pad), int(t_pad), int(r_pad), int(b_pad))
+    return padding
+
+# code from:
+# https://discuss.pytorch.org/t/how-to-resize-and-pad-in-a-torchvision-transforms-compose/71850/2
+class NewPad(object):
+    def __init__(self, fill=0, padding_mode='constant'):
+        assert isinstance(fill, (numbers.Number, str, tuple))
+        assert padding_mode in ['constant', 'edge', 'reflect', 'symmetric']
+
+        self.fill = fill
+        self.padding_mode = padding_mode
+
+    def __call__(self, img):
+        """
+        Args:
+            img (PIL Image): Image to be padded.
+
+        Returns:
+            PIL Image: Padded image.
+        """
+        return F.pad(img, get_padding(img), self.fill, self.padding_mode)
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(padding={0}, fill={1}, padding_mode={2})'.\
+            format(self.fill, self.padding_mode)
+
+
 def build_transform(args,is_train=True):
-    # if args.image_size==224:
-    #     src_size=256
-    # elif args.image_size==448:
-    #     src_size=480
-    src_size=args.image_size
-    # if is_train:
-    #     transform = transforms.Compose([
-    #         transforms.Resize(src_size),
-    #         transforms.RandomCrop(args.image_size),
-    #         transforms.RandomHorizontalFlip(),
-    #         transforms.ToTensor(),
-    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    #     ])
-    # else:
     transform = transforms.Compose([
-        transforms.Resize(src_size),
+        NewPad(),
+        transforms.Resize(args.width, args.height),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])

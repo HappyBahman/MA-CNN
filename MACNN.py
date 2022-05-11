@@ -20,7 +20,8 @@ dataset_group.add_argument("--dataset_name", type=str, default="CUB", help="data
 dataset_group.add_argument("--dataset_path", type=str, default="/home/liang/github/Dataset/bird_torch",
                            help="dataset path")
 dataset_group.add_argument("--batch_size", type=int, default=16, help="batch size")
-dataset_group.add_argument("--image_size", type=int, default=224, help="image_size")
+dataset_group.add_argument("--width", type=int, default=180, help="width")
+dataset_group.add_argument("--height", type=int, default=60, help="height")
 dataset_group.add_argument("--nthreads", type=str, default=8, help="nthreads")
 args = parser.parse_args()
 
