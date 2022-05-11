@@ -1,25 +1,14 @@
 version: "3"
 
 services:
-  bbav_code:
-    image: bbav:latest
-    container_name: "bbav_code2"
-    # Evaluation (mAP):
-    # command: bash -c "cd /BBAV/src/datasets/DOTA_devkit &&
-    #          python dota_evaluation_task1.py --classnames /BBAV/src/configs/classes.txt --annonpath /BBAV/DS/val1024/labelTxt/ --detpath /BBAV/models/result_dota/ --imagesetfile /BBAV/DS/val1024/test.txt"
-    # Train:
-    # python main.py --data_dir /BBAV/DS/train1024 --num_epoch 240 --conf_thresh 0.1 --batch_size 4 --dataset dota --phase train --classnames ./configs/classes.txt --init_lr 2.5e-5 --eval_w_train --eval_data_dir /BBAV/DS/val1024 --input_h 1024 --input_w 1024"
-    # Eval:
-    # python main.py --data_dir /BBAV/DS/val1024 --resume model_200.pth --conf_thresh 0.2 --batch_size 4 --dataset dota --phase eval --classnames ./configs/classes.txt
-    # Test:
-    # python main.py --data_dir /BBAV/DS/val1024 --resume model_200.pth --conf_thresh 0.2 --batch_size 4 --dataset dota --phase test --classnames ./configs/classes.txt --test_mode save --test_save_dir /BBAV/outputs"
-
-    command: bash -c "cd /BBAV/src/ &&
-             python main.py --data_dir /BBAV/DS/train1024 --num_epoch 240 --conf_thresh 0.1 --batch_size 4 --dataset dota --phase train --classnames ./configs/classes.txt --init_lr 2.5e-5 --eval_w_train --eval_data_dir /BBAV/DS/val1024 --input_h 608 --input_w 608"
+  macnn_srv:
+    image: macnn:latest
+    container_name: "macnn_cnt"
+    command: bash -c "python MACNN.py --dataset_name DOTA  --dataset_path /MACNN/DS --batch_size 8 --image_size 110"
     volumes:
-      - /home/ausm/Documents/codes/BBAV/dataset/dota_split:/BBAV/DS
-      - /home/ausm/Documents/codes/BBAV/test/140_epochs/models:/BBAV/models/
-      - ./src:/BBAV/src
+      - <dataset path>:/MACNN/DS
+      - <model save path>:/MACNN/MACNN2_output/
+      - ./:/MACNN
       - /home/ausm/Documents/codes/BBAV/test/cache:/root/.cache/
       - /home/ausm/Documents/codes/BBAV/test/outputs:/BBAV/outputs
       # - /home/ausm/Documents/codes/BBAV/test/logs:/BBAV/logs
