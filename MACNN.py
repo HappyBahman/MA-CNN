@@ -440,7 +440,9 @@ def vis(draw_imgs=1):
             plt.imshow(feat_maps3_numpy_)
             plt.subplot(5, 4, 20)
             plt.imshow(feat_maps4_numpy_)
-            plt.show()
+            # plt.show()
+            plt.imsave('outputs/{B}.png'.format(B=B), img)
+
 def train_attnandcnn():
     optimizer = opt.SGD([
         {"params": model.vgg.parameters(),"lr":0.001},

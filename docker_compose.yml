@@ -9,9 +9,7 @@ services:
       - <dataset path>:/MACNN/DS
       - <model save path>:/MACNN/MACNN2_output/
       - ./:/MACNN
-      - /home/ausm/Documents/codes/BBAV/test/cache:/root/.cache/
-      - /home/ausm/Documents/codes/BBAV/test/outputs:/BBAV/outputs
-      # - /home/ausm/Documents/codes/BBAV/test/logs:/BBAV/logs
+      - <output dir>:/MACNN/outputs
     deploy:
           resources:
             reservations:
