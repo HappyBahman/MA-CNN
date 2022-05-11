@@ -13,21 +13,21 @@ def build_transform(args,is_train=True):
     elif args.image_size==448:
         src_size=480
 
-    if is_train:
-        transform = transforms.Compose([
-            transforms.Resize(src_size),
-            transforms.RandomCrop(args.image_size),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ])
-    else:
-        transform = transforms.Compose([
-            transforms.Resize(src_size),
-            transforms.CenterCrop(args.image_size),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ])
+    # if is_train:
+    #     transform = transforms.Compose([
+    #         transforms.Resize(src_size),
+    #         transforms.RandomCrop(args.image_size),
+    #         transforms.RandomHorizontalFlip(),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ])
+    # else:
+    transform = transforms.Compose([
+        transforms.Resize(src_size),
+        transforms.CenterCrop(args.image_size),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
 
     return transform
 
@@ -49,4 +49,3 @@ def build_dataloader(args):
 
     return dataloader_train,dataloader_val,dataset_train,dataset_val,\
            num_classes,n_iter_per_epoch_train
-

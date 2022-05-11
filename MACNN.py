@@ -515,7 +515,7 @@ def train_attnandcnn():
                     loss = 20*divloss+disloss+clsloss
                     if idx % 10 == 0:
                         print("idx:{},divloss:{:.4f},disloss:{:.4f},clsloss:{:.4f}".format(idx, divloss.item(),disloss.item(),clsloss.item()))
-    
+
                     pred = predlist[-1].argmax(dim=1)
                     num_corrects_val += torch.eq(pred, label).float().sum().item()
                     val_loss += float(loss.item())
