@@ -446,7 +446,7 @@ def vis(draw_imgs=2):
             ax17.imshow(feat_maps3_numpy_)
             ax18 = fig.add_subplot(5, 4, 20)
             ax18.imshow(feat_maps4_numpy_)
-            fig.savefig('outputs/{label}/{b}.png'.format(b=b, label=label))
+            fig.savefig('outputs/{b}.png'.format(b=b))
 
 def train_attnandcnn():
     optimizer = opt.SGD([
