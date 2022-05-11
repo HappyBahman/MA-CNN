@@ -6,7 +6,6 @@ from torchvision.datasets import ImageFolder
 from torch.utils.data import Dataset
 import torch
 from PIL import Image
-
 from torchvision.transforms.functional import pad
 import numpy as np
 import numbers
@@ -41,7 +40,7 @@ class NewPad(object):
         Returns:
             PIL Image: Padded image.
         """
-        return F.pad(img, get_padding(img), self.fill, self.padding_mode)
+        return pad(img, get_padding(img), self.fill, self.padding_mode)
 
     def __repr__(self):
         return self.__class__.__name__ + '(padding={0}, fill={1}, padding_mode={2})'.\
