@@ -8,11 +8,11 @@ import torch
 from PIL import Image
 
 def build_transform(args,is_train=True):
-    if args.image_size==224:
-        src_size=256
-    elif args.image_size==448:
-        src_size=480
-
+    # if args.image_size==224:
+    #     src_size=256
+    # elif args.image_size==448:
+    #     src_size=480
+    src_size=args.image_size
     # if is_train:
     #     transform = transforms.Compose([
     #         transforms.Resize(src_size),
@@ -24,7 +24,6 @@ def build_transform(args,is_train=True):
     # else:
     transform = transforms.Compose([
         transforms.Resize(src_size),
-        transforms.CenterCrop(args.image_size),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
